@@ -33,25 +33,27 @@ namespace PlaylistEx
                 var client = new HttpClient();
                 client.BaseAddress = new Uri("https://www.youtube.com");
                 var result = client.GetAsync(pathPlaylist).Result;
+
+                //entire page source as a string
                 var pageSourceStr = result.Content.ReadAsStringAsync().Result;
 
 
-
+                //"▶" can be seen as a "flag", only one instance of this character exists in the entire page source, so this is a handy reference point
                 int index = pageSourceStr.IndexOf("▶"), index2 = index;
                 int total = index;
                 List<string> list = new List<string>();
                 while (index > -1)
                 {
-                    index = pageSourceStr.IndexOf(@"""url"":""/watch?v=", total);
-                    Console.WriteLine("index 1 found it is " + index);
-                    index2 = pageSourceStr.IndexOf(@"index=", total);
-                    Console.WriteLine("index 2 found it is " + index2);
+                    index = pageSourceStr.IndexOf(@"""url"":""/watch?v=", total); //this string only appears before the youtube URL
+                  //  Console.WriteLine("index 1 found it is " + index);
+                    index2 = pageSourceStr.IndexOf(@"index=", total);//this string only appears after the youtube URL
+                   // Console.WriteLine("index 2 found it is " + index2);
 
-                    int difference = index2 - index;
-                    string stringURL = "youtube.com"+ pageSourceStr.Substring(index + 7, difference + 7);
+                    int difference = index2 - index; //difference between the index reference points is the length of the youtube URL
+                    string stringURL = "youtube.com"+ pageSourceStr.Substring(index + 7, difference-13);
                     
                     Console.WriteLine("string is " + stringURL + " string length is " + stringURL.Length);
-                    if (stringURL.Length > 85)
+                    if (stringURL.Length > 96) //string URL will only ever be 85 characters long
                     {
                         Console.WriteLine("we are done");
                         break;
