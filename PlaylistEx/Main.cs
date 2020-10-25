@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net.Http;
-using VideoLibrary;
-using MediaToolkit;
-using MediaToolkit.Model;
-using System.IO;
+
 
 namespace PlaylistEx
 {
@@ -53,7 +47,7 @@ namespace PlaylistEx
                     string stringURL = "youtube.com"+ pageSourceStr.Substring(index + 7, difference-13);
                     
                     Console.WriteLine("string is " + stringURL + " string length is " + stringURL.Length);
-                    if (stringURL.Length > 96) //string URL will only ever be 85 characters long
+                    if (stringURL.Length > 96) //string URL will only ever be 96 characters long
                     {
                         Console.WriteLine("we are done");
                         break;
